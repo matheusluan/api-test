@@ -44,6 +44,8 @@ This is a development test project for a Node.js API using TypeScript, serving a
 
 - PUT /user/:id: Update details of a specific user.
 
+- DELETE /user/:id: Delete a specific user.
+
 
 - GET /companies: Get a list of all companies.
 
@@ -53,6 +55,14 @@ This is a development test project for a Node.js API using TypeScript, serving a
 
 - PUT /companies/:id: Update details of a specific company.
 
+- DELETE /companies/:id: Delete a specific company.
+
 ## Testing  
 # Example: Get all users
 curl http://localhost:3333/v1/user
+
+## Developement Notes   
+ - IF you run "yarn dev", dont need to build project.
+
+   ```bash
+   npm dev 
