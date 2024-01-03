@@ -1,0 +1,36 @@
+{
+  "name": "api-test",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsnd --cls --quiet --respawn --transpile-only src/server.ts",
+    "start": "node src/server.js",
+    "build": "yarn && tsc && cd src && yarn --production"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^18.8.3",
+    "@types/uuid": "^9.0.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/realm": "^1.13.0",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "node-windows": "^1.0.0-beta.8",
+    "oracledb": "^6.1.0",
+    "realm": "^12.2.0",
+    "uuid": "^9.0.1"
+  }
+}
