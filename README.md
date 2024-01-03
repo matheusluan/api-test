@@ -62,7 +62,7 @@ This is a development test project for a Node.js API using TypeScript, serving a
 curl http://localhost:3333/v1/user
 
 ## Developement Notes   
- - IF you run "yarn dev", dont need to build project.
+ - IF you run the "dev" script, dont need to build project.
 
    ```bash
    npm dev 
