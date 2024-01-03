@@ -22,7 +22,7 @@ class UserRepository {
   // Function to update User
   async updateUser(user: iUser) {
     await this.realm.write(() => {
-      this.realm.create<iUser>('user', user, Realm.UpdateMode.Modified);
+      this.realm.create<iUser>('User', user, Realm.UpdateMode.Modified);
     });
   }
 

@@ -77,10 +77,10 @@ class CompanyController {
 
       companyData._id = existingCompany._id;
 
-      // Salvar as alterações na Company
+      // Edit company
       await CompanyRepository.updateCompany(companyData);
 
-      return response.status(200).json(existingCompany);
+      return response.status(200).json({ message: 'Company updated successfully', companyData });
     } catch (error: any) {
       return response.status(400).json({ error: error.message });
     }
@@ -107,6 +107,24 @@ class CompanyController {
       const Companys = await CompanyRepository.getAllCompany();
 
       return response.json(Companys);
+    } catch (error: any) {
+      return response.status(500).json({ error: error.message });
+    }
+  }
+
+  async delete(request: Request, response: Response) {
+    try {
+      const { id } = request.params;
+
+      const company = await CompanyRepository.getCompanyById(id);
+
+      if (!company) {
+        throw new AppError('Company not found.', 404);
+      }
+
+      await CompanyRepository.deleteCompany(id);
+
+      return response.status(204).json({ message: "Company Deleted." });
     } catch (error: any) {
       return response.status(500).json({ error: error.message });
     }

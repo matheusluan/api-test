@@ -85,6 +85,11 @@ class UserController {
             const { id } = request.params;
             const userData: iUser = request.body;
 
+            if (!id) {
+                throw new AppError("Missing user ID.", 404);
+            }
+
+
             // Verify if user exist
             const existingUser = await userRepository.getUserById(id);
 
@@ -127,6 +132,24 @@ class UserController {
 
         } catch (error: any) {
             return response.status(400).json({ error: error.message });
+        }
+    }
+
+    async delete(request: Request, response: Response) {
+        try {
+            const { id } = request.params;
+
+            const user = await userRepository.getUserById(id);
+
+            if (!user) {
+                throw new AppError('User not found.', 404);
+            }
+
+            await userRepository.deleteUser(id);
+
+            return response.status(204).json({ message: "User Deleted." }); 
+        } catch (error: any) {
+            return response.status(500).json({ error: error.message });
         }
     }
 
