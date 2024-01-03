@@ -10,6 +10,10 @@ class UserController {
         try {
             const userData: iUser = request.body;
 
+            if (!userData) {
+                throw new AppError(`Request Body Missing.`);
+            }
+
             if (!userData.firstName || !userData.lastName || !userData.streetName || !userData.streetNumber || !userData.poBox || !userData.city || !userData.country || !userData.email || !userData.password) {
                 const missingFields = [];
 
@@ -108,7 +112,7 @@ class UserController {
 
             //IF password change
             if (userData.password != existingUser.password) {
-                
+
                 // Encript password
                 const hashedPassword = await bcrypt.hash(userData.password, 10);
 

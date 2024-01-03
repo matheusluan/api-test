@@ -9,6 +9,10 @@ class CompanyController {
     try {
       const companyData: iCompany = request.body;
 
+      if (!companyData) {
+        throw new AppError(`Request Body Missing.`);
+      }
+
       if (!companyData.name || !companyData.streetName || !companyData.streetNumber || !companyData.city || !companyData.state || !companyData.zipCode || !companyData.country || !companyData.email || !companyData.type || !companyData.telephone) {
         const missingFields = [];
 
@@ -89,7 +93,7 @@ class CompanyController {
       const Company = await CompanyRepository.getCompanyById(id);
 
       if (!Company) {
-        throw new AppError("Company não encontrada", 404);
+        throw new AppError("Company not found.", 404);
       }
 
       return response.status(200).json(Company);

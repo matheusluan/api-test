@@ -10,6 +10,9 @@ import { handleAsyncErrors } from "./middlewares/errors.middleware";
 //Instance of express 
 const app = express();
 
+//Use json in requests
+app.use(express.json());
+
 //Handle diferent origins of request
 app.use(cors());
 
