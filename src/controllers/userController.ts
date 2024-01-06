@@ -25,7 +25,9 @@ class UserController {
                 if (!userData.city) missingFields.push("city");
                 if (!userData.country) missingFields.push("country");
                 if (!userData.email) missingFields.push("email");
-                if (!userData.password) missingFields.push("type");
+                if (!userData.state) missingFields.push("state");
+                if (!userData.zipCode) missingFields.push("zipCode");
+                if (!userData.password) missingFields.push("password");
 
                 throw new AppError(`One or more fields are missing : ${missingFields.join(", ")}`);
             }
@@ -89,7 +91,6 @@ class UserController {
                 throw new AppError("Missing user ID.", 404);
             }
 
-
             // Verify if user exist
             const existingUser = await userRepository.getUserById(id);
 
@@ -97,7 +98,7 @@ class UserController {
                 throw new AppError("User not found!", 404);
             }
 
-            if (!userData.firstName || !userData.lastName || !userData.streetName || !userData.streetNumber || !userData.poBox || !userData.city || !userData.country || !userData.email || !userData.password) {
+            if (!userData.firstName || !userData.lastName || !userData.streetName || !userData.streetNumber || !userData.poBox || !userData.city || !userData.state || !userData.zipCode || !userData.country || !userData.email) {
                 const missingFields = [];
 
                 if (!userData.firstName) missingFields.push("First Name");
@@ -108,7 +109,8 @@ class UserController {
                 if (!userData.city) missingFields.push("city");
                 if (!userData.country) missingFields.push("country");
                 if (!userData.email) missingFields.push("email");
-                if (!userData.password) missingFields.push("type");
+                if (!userData.state) missingFields.push("state");
+                if (!userData.zipCode) missingFields.push("zipCode");
 
                 throw new AppError(`One or more fields are missing : ${missingFields.join(", ")}`);
             }
@@ -116,13 +118,15 @@ class UserController {
             userData._id = existingUser._id;
 
             //IF password change
-            if (userData.password != existingUser.password) {
+            if (userData.password && userData.password != existingUser.password) {
 
                 // Encript password
                 const hashedPassword = await bcrypt.hash(userData.password, 10);
 
                 // Replace the original password with the hash
                 userData.password = hashedPassword;
+            } else {
+                userData.password = existingUser.password;
             }
 
             //Update
@@ -147,7 +151,7 @@ class UserController {
 
             await userRepository.deleteUser(id);
 
-            return response.status(204).json({ message: "User Deleted." }); 
+            return response.status(204).json({ message: "User Deleted." });
         } catch (error: any) {
             return response.status(500).json({ error: error.message });
         }

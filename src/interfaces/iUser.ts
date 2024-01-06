@@ -7,7 +7,9 @@ export interface iUser {
     streetNumber:string; 
     poBox:string; 
     city: string;
+    state: string;
+    zipCode: string;
     country: string;
     email: string;
-    password: string;
+    password?: string;
 }

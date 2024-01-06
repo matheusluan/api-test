@@ -10,6 +10,8 @@ class UserSchema extends Realm.Object {
       streetName: "string",
       streetNumber: "string",
       poBox: "string",
+      state: "string",
+      zipCode: "string",
       city: "string",
       country: "string",
       email: "string",
