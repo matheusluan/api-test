@@ -46,7 +46,7 @@ class UserController {
 
             const user = await userRepository.createUser(userData);
 
-            return response.status(201).json({ statusCode: 201, message: 'User registered successfully', user });
+            return response.status(201).json({ statusCode: 201, message: 'User registered successfully', user: user });
 
         } catch (error: any) {
             return response.status(400).json({ statusCode: 400, error: error.message });

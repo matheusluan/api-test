@@ -13,10 +13,14 @@ class UserRepository {
   }
 
   // Function to create User
-  async createUser(user: iUser) {
+  async createUser(user: iUser): Promise<iUser | null> {
+    let createdUser: iUser | null = null;
+
     await this.realm.write(() => {
-      this.realm.create<iUser>('User', user);
+      createdUser = this.realm.create<iUser>('User', user);
     });
+
+    return createdUser;
   }
 
   // Function to update User
