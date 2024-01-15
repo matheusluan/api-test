@@ -39,9 +39,9 @@ class CompanyController {
 
       const company = await CompanyRepository.createCompany(companyData);
 
-      return response.status(201).json({ message: 'Company registered successfully', company });
+      return response.status(201).json({ statusCode: 201, message: 'Company registered successfully', company });
     } catch (error: any) {
-      return response.status(400).json({ error: error.message });
+      return response.status(400).json({ error: { statusCode: 400, message: error.message }, });
     }
   }
 
@@ -54,7 +54,7 @@ class CompanyController {
       const existingCompany = await CompanyRepository.getCompanyById(id);
 
       if (!existingCompany) {
-        throw new AppError("Company not found!", 404);
+        return response.status(404).json({ statusCode: 404, message: 'Company not found!' });
       }
 
       if (!companyData.name || !companyData.streetName || !companyData.streetNumber || !companyData.city || !companyData.state || !companyData.zipCode || !companyData.country || !companyData.email || !companyData.type || !companyData.telephone) {
@@ -72,7 +72,7 @@ class CompanyController {
         if (!companyData.type) missingFields.push("type");
         if (!companyData.telephone) missingFields.push("telephone");
 
-        throw new AppError(`One or more fields are missing : ${missingFields.join(", ")}`);
+        return response.status(400).json({ statusCode: 404, message: 'One or more fields are missing.', fields: missingFields.join(", ") });
       }
 
       companyData._id = existingCompany._id;
@@ -80,9 +80,9 @@ class CompanyController {
       // Edit company
       await CompanyRepository.updateCompany(companyData);
 
-      return response.status(200).json({ message: 'Company updated successfully', companyData });
+      return response.status(200).json({ statusCode: 200, message: 'Company updated successfully', companyData });
     } catch (error: any) {
-      return response.status(400).json({ error: error.message });
+      return response.status(500).json({ statusCode: 500, error: error.message });
     }
   }
 
@@ -93,12 +93,12 @@ class CompanyController {
       const Company = await CompanyRepository.getCompanyById(id);
 
       if (!Company) {
-        throw new AppError("Company not found.", 404);
+        return response.status(404).json({ statusCode: 404, message: 'Company not found.' });
       }
 
       return response.status(200).json(Company);
     } catch (error: any) {
-      return response.status(500).json({ error: error.message });
+      return response.status(500).json({ statusCode: 500, error: error.message });
     }
   }
 
@@ -124,7 +124,7 @@ class CompanyController {
 
       await CompanyRepository.deleteCompany(id);
 
-      return response.status(204).json({ message: "Company Deleted." });
+      return response.status(204).json({ statusCode: 204, message: "Company Deleted." });
     } catch (error: any) {
       return response.status(500).json({ error: error.message });
     }

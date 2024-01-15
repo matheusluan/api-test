@@ -29,7 +29,7 @@ class UserController {
                 if (!userData.zipCode) missingFields.push("zipCode");
                 if (!userData.password) missingFields.push("password");
 
-                throw new AppError(`One or more fields are missing : ${missingFields.join(", ")}`);
+                return response.status(400).json({ statusCode: 404, message: 'One or more fields are missing.', fields: missingFields.join(", ") });
             }
 
             // Generate UUID for user
@@ -46,10 +46,10 @@ class UserController {
 
             const user = await userRepository.createUser(userData);
 
-            return response.status(201).json({ message: 'User registered successfully', user });
+            return response.status(201).json({ statusCode: 201, message: 'User registered successfully', user });
 
         } catch (error: any) {
-            return response.status(400).json({ error: error.message });
+            return response.status(400).json({ statusCode: 400, error: error.message });
         }
     }
 
@@ -62,7 +62,7 @@ class UserController {
             return response.json(users);
 
         } catch (error: any) {
-            return response.status(500).json({ error: error.message });
+            return response.status(500).json({ statusCode: 500, error: error.message });
         }
     }
 
@@ -73,12 +73,12 @@ class UserController {
             const user = await userRepository.getUserById(id);
 
             if (!user) {
-                throw new AppError("User not found", 404);
+                response.status(404).json({ statusCode: 404, message: "User not found" });
             }
 
             return response.json(user);
         } catch (error: any) {
-            return response.status(500).json({ error: error.message });
+            return response.status(500).json({ statusCode: 500, error: error.message });
         }
     }
 
@@ -95,7 +95,7 @@ class UserController {
             const existingUser = await userRepository.getUserById(id);
 
             if (!existingUser) {
-                throw new AppError("User not found!", 404);
+                return response.status(404).json({ statusCode: 404, message: 'User not found.' });
             }
 
             if (!userData.firstName || !userData.lastName || !userData.streetName || !userData.streetNumber || !userData.poBox || !userData.city || !userData.state || !userData.zipCode || !userData.country || !userData.email) {
@@ -112,7 +112,7 @@ class UserController {
                 if (!userData.state) missingFields.push("state");
                 if (!userData.zipCode) missingFields.push("zipCode");
 
-                throw new AppError(`One or more fields are missing : ${missingFields.join(", ")}`);
+                return response.status(400).json({ statusCode: 404, message: 'One or more fields are missing.', fields: missingFields.join(", ") });
             }
 
             userData._id = existingUser._id;
@@ -132,7 +132,7 @@ class UserController {
             //Update
             await userRepository.updateUser(userData);
 
-            return response.status(200).json({ message: 'User updated successfully', userData });
+            return response.status(200).json({ statusCode: 200, message: 'User updated successfully', userData });
 
         } catch (error: any) {
             return response.status(400).json({ error: error.message });
@@ -146,14 +146,14 @@ class UserController {
             const user = await userRepository.getUserById(id);
 
             if (!user) {
-                throw new AppError('User not found.', 404);
+                return response.status(404).json({ statusCode: 404, message: 'User not found.' });
             }
 
             await userRepository.deleteUser(id);
 
-            return response.status(204).json({ message: "User Deleted." });
+            return response.status(204).json({ statusCode: 204, message: "User Deleted." });
         } catch (error: any) {
-            return response.status(500).json({ error: error.message });
+            return response.status(500).json({ statusCode: 500, error: error.message });
         }
     }
 
